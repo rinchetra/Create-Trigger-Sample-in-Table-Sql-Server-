@@ -1,0 +1,225 @@
+USE [NU_DB]
+GO
+/****** Object:  Trigger [dbo].[ACC_BachelorAR_HIS_BK]    Script Date: 12/22/2017 09:22:56 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author: RIN CHETRA
+-- Create 12/22/2017
+-- Description:	RECORD LOG
+-- =============================================
+ALTER TRIGGER [dbo].[ACC_BachelorAR_HIS_BK]
+   ON  [dbo].[ACC_BachelorAR]
+   AFTER  INSERT,DELETE,UPDATE
+AS 
+BEGIN
+	
+	SET NOCOUNT ON;
+	DECLARE @IP AS NVARCHAR(20)
+	DECLARE @PC AS NVARCHAR(60)
+	SET @IP =(SELECT CONVERT (NVARCHAR(20),CONNECTIONPROPERTY('CLIENT_NET_ADDRESS')))
+	SET @PC =(SELECT CONVERT (NVARCHAR(60),SERVERPROPERTY(N'MACHINENAME')))
+	
+	IF EXISTS (SELECT * FROM inserted) AND EXISTS (SELECT * FROM deleted)
+	BEGIN
+	     IF UPDATE(AcademicYear)
+	     BEGIN
+	         DECLARE @OLDAcademicYear AS NVARCHAR(100), @NEWAcademicYear AS NVARCHAR(100)
+	         SET @OLDAcademicYear = (SELECT AcademicYear FROM Deleted)
+	         SET @NEWAcademicYear = (SELECT AcademicYear FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDAcademicYear:' + @OLDAcademicYear + '@NEWAcademicYear:' + @NEWAcademicYear 
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(ID)
+	     BEGIN
+	         DECLARE @OLDID AS NVARCHAR(100), @NEWID AS NVARCHAR(100)
+	         SET @OLDID = (SELECT ID FROM Deleted)
+	         SET @NEWID = (SELECT ID FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDID:' + @OLDID + '@NEWID:' + @NEWID 
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(TuitionFee)
+	     BEGIN
+	         DECLARE @OLDTuitionFee AS NVARCHAR(100), @NEWTuitionFee AS NVARCHAR(100)
+	         SET @OLDTuitionFee = (SELECT TuitionFee FROM Deleted)
+	         SET @NEWTuitionFee = (SELECT TuitionFee FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDTuitionFee:' + @OLDTuitionFee + '@NEWTuitionFee:' + @NEWTuitionFee
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(Scholarship)
+	     BEGIN
+	         DECLARE @OLDScholarship AS NVARCHAR(100), @NEWScholarship AS NVARCHAR(100)
+	         SET @OLDScholarship = (SELECT Scholarship FROM Deleted)
+	         SET @NEWScholarship = (SELECT Scholarship FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDScholarship:' + @OLDScholarship + '@NEWScholarship:' + @NEWScholarship
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(Discount)
+	     BEGIN
+	         DECLARE @OLDDiscount AS NVARCHAR(100), @NEWDiscount AS NVARCHAR(100)
+	         SET @OLDDiscount = (SELECT Discount FROM Deleted)
+	         SET @NEWDiscount = (SELECT Discount FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDDiscount:' + @OLDDiscount + '@NEWDiscount:' + @NEWDiscount
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(LatePayment)
+	     BEGIN
+	         DECLARE @OLDLatePayment AS NVARCHAR(100), @NEWLatePayment AS NVARCHAR(100)
+	         SET @OLDLatePayment = (SELECT LatePayment FROM Deleted)
+	         SET @NEWLatePayment = (SELECT LatePayment FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDLatePayment:' + @OLDLatePayment + '@NEWLatePayment:' + @NEWLatePayment
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(Surcharge)
+	     BEGIN
+	         DECLARE @OLDSurcharge AS NVARCHAR(100), @NEWSurcharge AS NVARCHAR(100)
+	         SET @OLDSurcharge = (SELECT Surcharge FROM Deleted)
+	         SET @NEWSurcharge = (SELECT Surcharge FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDSurcharge:' + @OLDSurcharge + '@NEWSurcharge:' + @NEWSurcharge
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(DeductSalary)
+	     BEGIN
+	         DECLARE @OLDDeductSalary AS NVARCHAR(100), @NEWDeductSalary AS NVARCHAR(100)
+	         SET @OLDDeductSalary = (SELECT DeductSalary FROM Deleted)
+	         SET @NEWDeductSalary = (SELECT DeductSalary FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDDeductSalary:' + @OLDDeductSalary + '@NEWDeductSalary:' + @NEWDeductSalary
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(AddCourse)
+	     BEGIN
+	         DECLARE @OLDAddCourse AS NVARCHAR(100), @NEWAddCourse AS NVARCHAR(100)
+	         SET @OLDAddCourse = (SELECT AddCourse FROM Deleted)
+	         SET @NEWAddCourse = (SELECT AddCourse FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDAddCourse:' + @OLDAddCourse + '@NEWAddCourse:' + @NEWAddCourse
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(Refund)
+	     BEGIN
+	         DECLARE @OLDRefund AS NVARCHAR(100), @NEWRefund AS NVARCHAR(100)
+	         SET @OLDRefund = (SELECT Refund FROM Deleted)
+	         SET @NEWRefund = (SELECT Refund FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDRefund:' + @OLDRefund + '@NEWRefund:' + @NEWRefund
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(Transfer)
+	     BEGIN
+	         DECLARE @OLDTransfer AS NVARCHAR(100), @NEWTransfer AS NVARCHAR(100)
+	         SET @OLDTransfer = (SELECT Transfer FROM Deleted)
+	         SET @NEWTransfer = (SELECT Transfer FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDTransfer:' + @OLDTransfer + '@NEWTransfer:' + @NEWTransfer
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(Suspend)
+	     BEGIN
+	         DECLARE @OLDSuspend AS NVARCHAR(100), @NEWSuspend AS NVARCHAR(100)
+	         SET @OLDSuspend = (SELECT Suspend FROM Deleted)
+	         SET @NEWSuspend = (SELECT Suspend FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDSuspend:' + @OLDSuspend + '@NEWSuspend:' + @NEWSuspend
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(Stop)
+	     BEGIN
+	         DECLARE @OLDStop AS NVARCHAR(100), @NEWStop AS NVARCHAR(100)
+	         SET @OLDStop = (SELECT Stop FROM Deleted)
+	         SET @NEWStop = (SELECT Stop FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDStop:' + @OLDStop + '@NEWStop:' + @NEWStop
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(BalanceLastYear)
+	     BEGIN
+	         DECLARE @OLDBalanceLastYear AS NVARCHAR(100), @NEWBalanceLastYear AS NVARCHAR(100)
+	         SET @OLDBalanceLastYear = (SELECT BalanceLastYear FROM Deleted)
+	         SET @NEWBalanceLastYear = (SELECT BalanceLastYear FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDBalanceLastYear:' + @OLDBalanceLastYear + '@NEWBalanceLastYear:' + @NEWBalanceLastYear
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(Remark)
+	     BEGIN
+	         DECLARE @OLDRemark AS NVARCHAR(100), @NEWRemark AS NVARCHAR(100)
+	         SET @OLDRemark = (SELECT Remark FROM Deleted)
+	         SET @NEWRemark = (SELECT Remark FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDRemark:' + @OLDRemark + '@NEWRemark:' + @NEWRemark
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(ModifiedBy)
+	     BEGIN
+	         DECLARE @OLDModifiedBy AS NVARCHAR(100), @NEWModifiedBy AS NVARCHAR(100)
+	         SET @OLDModifiedBy = (SELECT ModifiedBy FROM Deleted)
+	         SET @NEWModifiedBy = (SELECT ModifiedBy FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDModifiedBy:' + @OLDModifiedBy + '@NEWModifiedBy:' + @NEWModifiedBy
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     IF UPDATE(ModifiedDate)
+	     BEGIN
+	         DECLARE @OLDModifiedDate AS NVARCHAR(100), @NEWModifiedDate AS NVARCHAR(100)
+	         SET @OLDModifiedDate = (SELECT ModifiedDate FROM Deleted)
+	         SET @NEWModifiedDate = (SELECT ModifiedDate FROM Inserted)
+	         INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	         SELECT SYSTEM_USER ,@IP,@PC
+	                ,'@OLDModifiedDate:' + @OLDModifiedDate + '@NEWModifiedDate:' + @NEWModifiedDate
+	                ,'UPDATE', 'ACC_BachelorAR', GETDATE() 
+	     END
+	     
+	   RETURN
+	 IF EXISTS (SELECT * FROM inserted)
+	     BEGIN
+	        INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	        SELECT SYSTEM_USER
+	               ,@IP
+	               ,@PC
+	               ,'ID:' + ID + '|TuitionFee:' + TuitionFee + '|Scholarship:' + Scholarship + '|Discount:' + Discount + '|LatePayment:' + LatePayment + '|Surcharge:' + Surcharge + '|DeductSalary:' + DeductSalary + '|AddCourse:' + AddCourse +'|Refund:' + Refund + '|Transfer:' + Transfer +'|Suspend:' + Suspend + '|Stop:' + Stop +'|BalanceLastYear:' + BalanceLastYear + '|Remark:' + Remark + '|ModifiedBy:' + ModifiedBy + '|ModifiedDate:' + CAST (ModifiedDate AS NVARCHAR(10)) 
+	               ,'DELETED'
+	               ,'ACC_BachelorAR'
+	               ,GETDATE()
+	       FROM inserted 
+	     END
+	   IF EXISTS (SELECT * FROM deleted)
+	     BEGIN
+	        INSERT INTO NU_DB_HIS..RECORDS_HISTORY 
+	        SELECT SYSTEM_USER
+	              ,@IP
+	               ,@PC
+	               ,'ID:' + ID + '|TuitionFee:' + TuitionFee + '|Scholarship:' + Scholarship + '|Discount:' + Discount + '|LatePayment:' + LatePayment + '|Surcharge:' + Surcharge + '|DeductSalary:' + DeductSalary + '|AddCourse:' + AddCourse +'|Refund:' + Refund + '|Transfer:' + Transfer +'|Suspend:' + Suspend + '|Stop:' + Stop +'|BalanceLastYear:' + BalanceLastYear + '|Remark:' + Remark + '|ModifiedBy:' + ModifiedBy + '|ModifiedDate:' + CAST (ModifiedDate AS NVARCHAR(10)) 
+	               ,'DELETED'
+	               ,'ACC_BachelorAR'
+	               ,GETDATE()
+	       FROM deleted
+	     END
+	END									
+
+END
